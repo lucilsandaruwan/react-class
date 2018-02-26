@@ -182,3 +182,11 @@ hr {
     flex-shrink: 0;
   }
 }
+
+
+.productItem {
+  display: block;
+}
+.productItem .productImage {
+  display: inline-block;
+}
