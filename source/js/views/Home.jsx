@@ -11,12 +11,14 @@ export default class Home extends Component {
 
     this.state = {
       products: [],
-      cartItems: this.getCartItems()
     };
     this.productClickHandler = this.productClickHandler.bind(this);
+    this.updateCartItemsFromLocalStorage = this.updateCartItemsFromLocalStorage.bind(this);
   }
 
   componentDidMount() {
+    this.updateCartItemsFromLocalStorage();
+    window.addEventListener('storage', this.updateCartItemsFromLocalStorage);
     this.getProducts();
   }
 
@@ -48,6 +50,10 @@ export default class Home extends Component {
       .then((json) => {
         this.setState({ products: json });
       });
+  }
+
+  updateCartItemsFromLocalStorage() {
+    this.setState({cartItems: this.getCartItems()});
   }
 
   productClickHandler(e, product) {
