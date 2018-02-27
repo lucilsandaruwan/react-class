@@ -11,6 +11,7 @@ export default class Home extends Component {
 
     this.state = {
       products: [],
+      cartItems: this.getCartItems()
     };
     this.productClickHandler = this.productClickHandler.bind(this);
   }
@@ -25,10 +26,18 @@ export default class Home extends Component {
 
   addToCart(product) {
     const cart = this.getCartItems();
-    if (cart.indexOf(product.name) === -1) {
-      cart.push(product.name);
+    if (!this.isInCart(product.name)) {
+      cart.push(product);
       localStorage.setItem('cart', JSON.stringify(cart));
+      this.setState({cartItems: cart});
     }
+  }
+
+  isInCart(productName) {
+    const cart = this.state.cartItems; 
+    return cart.find(product => {
+      return product.name == productName;
+    }); 
   }
 
   getProducts() {
@@ -52,8 +61,15 @@ export default class Home extends Component {
         {
           this.state.products.map((product, idx) => {
           return (<a key={ idx } className='productItem' href={ product.productUrl } onClick={ (e) => { this.productClickHandler(e, product, 123, 111); } }>
-            <img className='productImage' src={ product.image } />
-            {product.name}
+            <div className="productWrapper">
+            <div className='productImage'> <img src={ product.image } /> </div>
+            <div className='productDescription'> 
+              <p>{product.name}</p>
+              { this.isInCart(product.name) ? <p>added to cart</p> : null }
+              
+            </div>
+            
+            </div>
           </a>);
           })
         }

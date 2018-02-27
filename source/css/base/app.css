@@ -186,7 +186,21 @@ hr {
 
 .productItem {
   display: block;
+  float: left;
+  clear: left;
 }
 .productItem .productImage {
   display: inline-block;
+}
+.productItem .productWrapper {
+  display: inline-block;
+}
+
+.productItem .productDescription {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.productItem .productDescription p {
+  font-size: 0.5em;
 }
