@@ -26,7 +26,7 @@ function ApiError(message, data, status) {
 }
 
 // API wrapper function
-const fetchResource = (path, userOptions = {}) => {
+const fetchResource = (path, userOptions = {}, fullUrl = false) => {
   // Define default options
   const defaultOptions = {};
 
@@ -48,8 +48,10 @@ const fetchResource = (path, userOptions = {}) => {
   };
 
   // Build Url
-  const url = `${ API_URL }/${ path }`;
-
+  var url = `${ API_URL }/${ path }`;
+  if (fullUrl) {
+    url = path;
+  }
   // Detect is we are uploading a file
   const isFile = typeof window !== 'undefined' && options.body instanceof File;
 
@@ -106,9 +108,15 @@ const fetchResource = (path, userOptions = {}) => {
 };
 
 function getPeople() {
-  return fetchResource('people/');
+  return fetchResource('people/',  {}, false);
 }
+
+function getProducts () {
+  return fetchResource('http://localhost:8080/products_list',{}, true);
+};
 
 export default {
   getPeople,
+  getProducts,
 };
+

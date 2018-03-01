@@ -15,6 +15,7 @@ import getServerHtml from 'components/server/ServerHTML';
 import App from 'views/App';
 
 import { getPeopleServer } from 'sagas/people';
+import { getProductsServer } from 'sagas/products';
 
 // Load SCSS
 import 'index.css';
@@ -93,6 +94,23 @@ function handleRequest(req, res, sagas = null, sagaArgs = {}) {
 // and object containing saga's options (usually req.params)
 app.get('/people', (req, res) => {
   handleRequest(req, res, [getPeopleServer]);
+});
+
+app.get('/products', (req, res) => {
+  handleRequest(req, res, [getProductsServer]);
+});
+
+app.get('/products_list', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  fetch('https://www.lazada.sg/baseus?ajax=true').then((response) => {
+    return response.json();
+  })
+  .then((responseJson) => {
+    res.send(responseJson);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 });
 
 // All other routes
