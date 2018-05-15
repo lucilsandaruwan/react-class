@@ -10,7 +10,6 @@ const ServerHTML = ({ appHtml, dehydratedState }) => (
       <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0' />
 
       <title>Marvin &bull; React/Redux Boilerplate</title>
-
       <link rel='stylesheet' href={ `/${ outputFiles.css }` } />
     </head>
     <body>

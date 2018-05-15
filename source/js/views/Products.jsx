@@ -26,11 +26,11 @@ export default class Products extends Component {
       dispatch(getProducts());
     }
   }
+  
   renderProducts() {
     const {
       products,
     } = this.props;
-    console.log(products);
     return products.mods.listItems.map(product => {
       return (
         <a key={ product.sku } className='productItem' href={ product.productUrl } onClick={ (e) => { this.productClickHandler(e, product, 123, 111); } }>

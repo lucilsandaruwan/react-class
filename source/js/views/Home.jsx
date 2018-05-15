@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ProductList from 'product_list.json';
+import SearchBox from 'components/global/SearchBox';
 
 
 @connect(state => ({
@@ -14,6 +16,7 @@ export default class Home extends Component {
     };
     this.productClickHandler = this.productClickHandler.bind(this);
     this.updateCartItemsFromLocalStorage = this.updateCartItemsFromLocalStorage.bind(this);
+    this.getProducts = this.getProducts.bind(this);
   }
 
   componentDidMount() {
@@ -37,19 +40,22 @@ export default class Home extends Component {
 
   isInCart(productName) {
     const cart = this.state.cartItems; 
-    return cart.find(product => {
-      return product.name == productName;
-    }); 
+    return cart.find(product => product.name == productName); 
   }
 
-  getProducts() {
-    return fetch('assets/product_list.json')
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        this.setState({ products: json });
-      });
+  getProducts(q='table') {
+    console.log(q);
+    fetch('/products_list/?q=' + q).then((response) => {
+      return response.json();
+    })
+    .then((responseJson) => {
+      console.log(this.state.products);
+      this.setState({ products: responseJson.mods.listItems });
+      
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   updateCartItemsFromLocalStorage() {
@@ -64,6 +70,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className='Home'>
+        <SearchBox getProducts={ this.getProducts }/>
         {
           this.state.products.map((product, idx) => {
           return (<a key={ idx } className='productItem' href={ product.productUrl } onClick={ (e) => { this.productClickHandler(e, product, 123, 111); } }>
@@ -71,6 +78,8 @@ export default class Home extends Component {
             <div className='productImage'> <img src={ product.image } /> </div>
             <div className='productDescription'> 
               <p>{product.name}</p>
+              <p> {product.price} </p>
+              <p> {product.brandName} </p>
               { this.isInCart(product.name) ? <p>added to cart</p> : null }
               
             </div>

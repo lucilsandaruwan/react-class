@@ -204,3 +204,8 @@ hr {
 .productItem .productDescription p {
   font-size: 0.5em;
 }
+
+.productImage {
+  width: 200px;
+  margin-right: 2em;
+}

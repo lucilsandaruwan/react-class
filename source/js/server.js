@@ -102,7 +102,7 @@ app.get('/products', (req, res) => {
 
 app.get('/products_list', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  fetch('https://www.lazada.sg/baseus?ajax=true').then((response) => {
+  fetch('https://www.lazada.sg/catalog/?q='+ req.query.q +'&ajax=true').then((response) => {
     return response.json();
   })
   .then((responseJson) => {
